@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "name": "Jordan Military",
+    "price": "226.11",
+    "img": "/product/jod1.png",
+    "category": "Jordan",
+    "description": "Classic Jordan 4 with premium leather construction (Colorway 1)"
+  },
+  {
+    "id": 2,
+    "name": "Jordan Military",
+    "price": "138.00",
+    "img": "/product/jod2.png",
+    "category": "Jordan",
+    "description": "Classic Jordan 4 with premium leather construction (Colorway 2)"
+  },
+  {
+    "id": 3,
+    "name": "Jordan Infrared",
+    "price": "197.54",
+    "img": "/product/jod3.png",
+    "category": "Jordan",
+    "description": "Limited edition Jordan 4 with signature colorway (Colorway 1)"
+  },
+  {
+    "id": 4,
+    "name": "Jordan Infrared",
+    "price": "241.32",
+    "img": "/product/jod4.png",
+    "category": "Jordan",
+    "description": "Limited edition Jordan 4 with signature colorway (Colorway 2)"
+  },
+  {
+    "id": 5,
+    "name": "Jordan Canvas",
+    "price": "122.15",
+    "img": "/product/jod5.png",
+    "category": "Jordan",
+    "description": "Canvas material Jordan 4 with unique texture and comfort (Colorway 1)"
+  },
+  {
+    "id": 6,
+    "name": "Jordan Canvas",
+    "price": "166.71",
+    "img": "/product/jod6.png",
+    "category": "Jordan",
+    "description": "Canvas material Jordan 4 with unique texture and comfort (Colorway 2)"
+  },
+  {
+    "id": 7,
+    "name": "Jordan Myth",
+    "price": "267.78",
+    "img": "/product/jod7.png",
+    "category": "Jordan",
+    "description": "Myth-inspired Jordan 4 with premium materials and design (Colorway 1)"
+  },
+  {
+    "id": 8,
+    "name": "Jordan Myth",
+    "price": "277.54",
+    "img": "/product/jod8.png",
+    "category": "Jordan",
+    "description": "Myth-inspired Jordan 4 with premium materials and design (Colorway 2)"
+  },
+  {
+    "id": 9,
+    "name": "Jordan Retro",
+    "price": "128.40",
+    "img": "/product/jod9.png",
+    "category": "Jordan",
+    "description": "Classic retro Jordan 4 with original styling and comfort (Colorway 1)"
+  },
+  {
+    "id": 10,
+    "name": "Jordan Retro",
+    "price": "234.14",
+    "img": "/product/jod10.png",
+    "category": "Jordan",
+    "description": "Classic retro Jordan 4 with original styling and comfort (Colorway 2)"
+  },
+  {
+    "id": 11,
+    "name": "Jordan Urban",
+    "price": "212.50",
+    "img": "/product/jod11.png",
+    "category": "Jordan",
+    "description": "Urban style Jordan 4 perfect for city lifestyle (Colorway 1)"
+  },
+  {
+    "id": 12,
+    "name": "Jordan Urban",
+    "price": "291.88",
+    "img": "/product/jod12.png",
+    "category": "Jordan",
+    "description": "Urban style Jordan 4 perfect for city lifestyle (Colorway 2)"
+  },
+  {
+    "id": 13,
+    "name": "Jordan Maniere",
+    "price": "122.33",
+    "img": "/product/jod13.png",
+    "category": "Jordan",
+    "description": "A Ma Maniére collaboration Jordan 4 with luxury details (Colorway 1)"
+  },
+  {
+    "id": 14,
+    "name": "Jordan Maniere",
+    "price": "173.69",
+    "img": "/product/jod14.png",
+    "category": "Jordan",
+    "description": "A Ma Maniére collaboration Jordan 4 with luxury details (Colorway 2)"
+  },
+  {
+    "id": 15,
+    "name": "Jordan Order",
+    "price": "120.69",
+    "img": "/product/jod15.png",
+    "category": "Jordan",
+    "description": "Special order Jordan 4 with custom modifications (Colorway 1)"
+  },
+  {
+    "id": 16,
+    "name": "Jordan Order",
+    "price": "184.18",
+    "img": "/product/jod16.png",
+    "category": "Jordan",
+    "description": "Special order Jordan 4 with custom modifications (Colorway 2)"
+  },
+  {
+    "id": 17,
+    "name": "Jordan University",
+    "price": "110.84",
+    "img": "/product/jod17.png",
+    "category": "Jordan",
+    "description": "University blue Jordan 4 with premium suede construction (Colorway 1)"
+  },
+  {
+    "id": 18,
+    "name": "Jordan University",
+    "price": "224.41",
+    "img": "/product/jod18.png",
+    "category": "Jordan",
+    "description": "University blue Jordan 4 with premium suede construction (Colorway 2)"
+  },
+  {
+    "id": 19,
+    "name": "Jordan Weed",
+    "price": "252.48",
+    "img": "/product/jod19.png",
+    "category": "Jordan",
+    "description": "Unique Jordan 4 with artistic weed-inspired design (Colorway 1)"
+  },
+  {
+    "id": 20,
+    "name": "Jordan Weed",
+    "price": "190.92",
+    "img": "/product/jod20.png",
+    "category": "Jordan",
+    "description": "Unique Jordan 4 with artistic weed-inspired design (Colorway 2)"
+  },
+  {
+    "id": 21,
+    "name": "Jordan Thunder",
+    "price": "164.69",
+    "img": "/product/jod21.png",
+    "category": "Jordan",
+    "description": "Thunder colorway Jordan 4 with bold yellow accents (Colorway 1)"
+  },
+  {
+    "id": 22,
+    "name": "Jordan Thunder",
+    "price": "157.56",
+    "img": "/product/jod22.png",
+    "category": "Jordan",
+    "description": "Thunder colorway Jordan 4 with bold yellow accents (Colorway 2)"
+  },
+  {
+    "id": 23,
+    "name": "Nike Air Max 270",
+    "price": "296.87",
+    "img": "/product/f1.png",
+    "category": "Nike",
+    "description": "Nike Air Max with maximum Air cushioning for all-day comfort (Colorway 1)"
+  },
+  {
+    "id": 24,
+    "name": "Nike Air Max 270",
+    "price": "187.65",
+    "img": "/product/f2.png",
+    "category": "Nike",
+    "description": "Nike Air Max with maximum Air cushioning for all-day comfort (Colorway 2)"
+  },
+  {
+    "id": 25,
+    "name": "Nike Dunk Low",
+    "price": "211.74",
+    "img": "/product/f3.png",
+    "category": "Nike",
+    "description": "Classic Nike Dunk Low with retro styling and modern comfort (Colorway 1)"
+  },
+  {
+    "id": 26,
+    "name": "Nike Dunk Low",
+    "price": "205.11",
+    "img": "/product/f4.png",
+    "category": "Nike",
+    "description": "Classic Nike Dunk Low with retro styling and modern comfort (Colorway 2)"
+  },
+  {
+    "id": 27,
+    "name": "Nike Air Force 1",
+    "price": "203.72",
+    "img": "/product/f5.png",
+    "category": "Nike",
+    "description": "Iconic Nike Air Force 1 with classic design and premium leather (Colorway 1)"
+  },
+  {
+    "id": 28,
+    "name": "Nike Air Force 1",
+    "price": "117.09",
+    "img": "/product/f6.png",
+    "category": "Nike",
+    "description": "Iconic Nike Air Force 1 with classic design and premium leather (Colorway 2)"
+  },
+  {
+    "id": 29,
+    "name": "Nike React Infinity",
+    "price": "226.40",
+    "img": "/product/f7.png",
+    "category": "Nike",
+    "description": "Lightweight Nike React Infinity with innovative support (Colorway 1)"
+  },
+  {
+    "id": 30,
+    "name": "Nike React Infinity",
+    "price": "224.76",
+    "img": "/product/f8.png",
+    "category": "Nike",
+    "description": "Lightweight Nike React Infinity with innovative support (Colorway 2)"
+  },
+  {
+    "id": 31,
+    "name": "Nike Pegasus Trail",
+    "price": "148.94",
+    "img": "/product/f9.png",
+    "category": "Nike",
+    "description": "Trail running focused Nike Pegasus Trail (Colorway 1)"
+  },
+  {
+    "id": 32,
+    "name": "Nike Pegasus Trail",
+    "price": "191.29",
+    "img": "/product/f10.png",
+    "category": "Nike",
+    "description": "Trail running focused Nike Pegasus Trail (Colorway 2)"
+  },
+  {
+    "id": 33,
+    "name": "Nike Blazer Mid",
+    "price": "155.36",
+    "img": "/product/f11.png",
+    "category": "Nike",
+    "description": "High-top Nike Blazer Mid for timeless style (Colorway 1)"
+  },
+  {
+    "id": 34,
+    "name": "Nike Blazer Mid",
+    "price": "128.66",
+    "img": "/product/f12.png",
+    "category": "Nike",
+    "description": "High-top Nike Blazer Mid for timeless style (Colorway 2)"
+  },
+  {
+    "id": 35,
+    "name": "Nike Cortez Classic",
+    "price": "219.44",
+    "img": "/product/g1.png",
+    "category": "Nike",
+    "description": "Throwback Nike Cortez Classic with OG feel (Colorway 1)"
+  },
+  {
+    "id": 36,
+    "name": "Nike Cortez Classic",
+    "price": "200.27",
+    "img": "/product/g2.png",
+    "category": "Nike",
+    "description": "Throwback Nike Cortez Classic with OG feel (Colorway 2)"
+  },
+  {
+    "id": 37,
+    "name": "Nike Waffle Racer",
+    "price": "232.53",
+    "img": "/product/g3.png",
+    "category": "Nike",
+    "description": "Retro Nike Waffle Racer with unique sole pattern (Colorway 1)"
+  },
+  {
+    "id": 38,
+    "name": "Nike Waffle Racer",
+    "price": "260.80",
+    "img": "/product/g4.png",
+    "category": "Nike",
+    "description": "Retro Nike Waffle Racer with unique sole pattern (Colorway 2)"
+  },
+  {
+    "id": 39,
+    "name": "Nike Air Zoom Pulse",
+    "price": "171.09",
+    "img": "/product/g5.png",
+    "category": "Nike",
+    "description": "Healthcare lead Nike Air Zoom Pulse (Colorway 1)"
+  },
+  {
+    "id": 40,
+    "name": "Nike Air Zoom Pulse",
+    "price": "116.24",
+    "img": "/product/g6.png",
+    "category": "Nike",
+    "description": "Healthcare lead Nike Air Zoom Pulse (Colorway 2)"
+  },
+  {
+    "id": 41,
+    "name": "Nike SB Dunk High",
+    "price": "274.88",
+    "img": "/product/g7.png",
+    "category": "Nike",
+    "description": "Bold style Nike SB Dunk High (Colorway 1)"
+  },
+  {
+    "id": 42,
+    "name": "Nike SB Dunk High",
+    "price": "166.29",
+    "img": "/product/g8.png",
+    "category": "Nike",
+    "description": "Bold style Nike SB Dunk High (Colorway 2)"
+  },
+  {
+    "id": 43,
+    "name": "Adidas Ultraboost 22",
+    "price": "135.53",
+    "img": "/product/og1.jpg",
+    "category": "Adidas",
+    "description": "Adidas Ultraboost with Boost technology for energy return (Colorway 1)"
+  },
+  {
+    "id": 44,
+    "name": "Adidas Ultraboost 22",
+    "price": "285.69",
+    "img": "/product/og2.jpg",
+    "category": "Adidas",
+    "description": "Adidas Ultraboost with Boost technology for energy return (Colorway 2)"
+  },
+  {
+    "id": 45,
+    "name": "Adidas Stan Smith",
+    "price": "113.23",
+    "img": "/product/og3.jpg",
+    "category": "Adidas",
+    "description": "Clean and minimal Adidas Stan Smith with tennis heritage (Colorway 1)"
+  },
+  {
+    "id": 46,
+    "name": "Adidas Stan Smith",
+    "price": "270.95",
+    "img": "/product/og4.jpg",
+    "category": "Adidas",
+    "description": "Clean and minimal Adidas Stan Smith with tennis heritage (Colorway 2)"
+  },
+  {
+    "id": 47,
+    "name": "Adidas NMD R1",
+    "price": "270.52",
+    "img": "/product/og5.jpg",
+    "category": "Adidas",
+    "description": "Versatile Adidas NMD R1 with modern style (Colorway 1)"
+  },
+  {
+    "id": 48,
+    "name": "Adidas NMD R1",
+    "price": "145.83",
+    "img": "/product/og6.jpg",
+    "category": "Adidas",
+    "description": "Versatile Adidas NMD R1 with modern style (Colorway 2)"
+  },
+  {
+    "id": 49,
+    "name": "Adidas Superstar",
+    "price": "284.84",
+    "img": "/product/og7.jpg",
+    "category": "Adidas",
+    "description": "Timeless Adidas Superstar with shell toe (Colorway 1)"
+  },
+  {
+    "id": 50,
+    "name": "Adidas Superstar",
+    "price": "214.43",
+    "img": "/product/og8.jpg",
+    "category": "Adidas",
+    "description": "Timeless Adidas Superstar with shell toe (Colorway 2)"
+  }
+]

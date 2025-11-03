@@ -1,0 +1,128 @@
+body {
+      background: url('../img/poster/banner1.jpeg') 
+                  no-repeat center center/cover;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .auth-box {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 16px;
+      box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.25);
+      padding: 30px 25px;
+      max-width: 380px;
+      width: 100%;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .auth-box h3 {
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .logo img {
+      width: 45px;
+    }
+
+    .logo h4 {
+      margin-top: 8px;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .nav-tabs {
+      border: none;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .nav-tabs .nav-link {
+      border: none;
+      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 20px;
+      transition: 0.3s;
+    }
+
+    .nav-tabs .nav-link.active {
+      background-color: #000;
+      color: #fff;
+      border-radius: 25px;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+    }
+
+    .form-control:focus {
+      border-color: #000;
+      box-shadow: 0 0 5px rgba(0,0,0,0.25);
+    }
+
+    .btn-dark {
+      background: #000;
+      border: none;
+      padding: 10px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .btn-dark:hover {
+      background: #333;
+      transform: scale(1.02);
+    }
+
+    .d-flex label {
+      font-size: 13px;
+    }
+
+    .extra-links {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .social-login {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .social-login p {
+      font-size: 13px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .social-login i {
+      font-size: 18px;
+      margin: 0 8px;
+      cursor: pointer;
+      color: #555;
+      transition: 0.3s;
+    }
+
+    .social-login i:hover {
+      color: #000;
+    }

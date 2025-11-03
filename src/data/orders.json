@@ -1,0 +1,170 @@
+[
+  {
+    "_id": "order_001",
+    "user": {
+      "name": "John Smith",
+      "email": "john.smith@email.com"
+    },
+    "totalPrice": 299.99,
+    "status": "delivered",
+    "items": [
+      {
+        "productId": 1,
+        "name": "Jordan Military",
+        "price": 226.11,
+        "quantity": 1
+      },
+      {
+        "productId": 23,
+        "name": "Nike Air Max 270",
+        "price": 73.88,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "_id": "order_002",
+    "user": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@email.com"
+    },
+    "totalPrice": 157.56,
+    "status": "shipped",
+    "items": [
+      {
+        "productId": 22,
+        "name": "Jordan Thunder",
+        "price": 157.56,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-14T14:20:00Z"
+  },
+  {
+    "_id": "order_003",
+    "user": {
+      "name": "Mike Wilson",
+      "email": "mike.w@email.com"
+    },
+    "totalPrice": 445.83,
+    "status": "processing",
+    "items": [
+      {
+        "productId": 43,
+        "name": "Adidas Ultraboost 22",
+        "price": 135.53,
+        "quantity": 1
+      },
+      {
+        "productId": 47,
+        "name": "Adidas NMD R1",
+        "price": 270.52,
+        "quantity": 1
+      },
+      {
+        "productId": 25,
+        "name": "Nike Dunk Low",
+        "price": 39.78,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-13T09:15:00Z"
+  },
+  {
+    "_id": "order_004",
+    "user": {
+      "name": "Emily Davis",
+      "email": "emily.d@email.com"
+    },
+    "totalPrice": 184.18,
+    "status": "pending",
+    "items": [
+      {
+        "productId": 16,
+        "name": "Jordan Order",
+        "price": 184.18,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-12T16:45:00Z"
+  },
+  {
+    "_id": "order_005",
+    "user": {
+      "name": "David Brown",
+      "email": "david.b@email.com"
+    },
+    "totalPrice": 527.40,
+    "status": "delivered",
+    "items": [
+      {
+        "productId": 7,
+        "name": "Jordan Myth",
+        "price": 267.78,
+        "quantity": 1
+      },
+      {
+        "productId": 41,
+        "name": "Nike SB Dunk High",
+        "price": 259.62,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-11T11:30:00Z"
+  },
+  {
+    "_id": "order_006",
+    "user": {
+      "name": "Lisa Anderson",
+      "email": "lisa.a@email.com"
+    },
+    "totalPrice": 224.41,
+    "status": "shipped",
+    "items": [
+      {
+        "productId": 18,
+        "name": "Jordan University",
+        "price": 224.41,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-10T13:20:00Z"
+  },
+  {
+    "_id": "order_007",
+    "user": {
+      "name": "Chris Taylor",
+      "email": "chris.t@email.com"
+    },
+    "totalPrice": 166.29,
+    "status": "delivered",
+    "items": [
+      {
+        "productId": 42,
+        "name": "Nike SB Dunk High",
+        "price": 166.29,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-09T08:45:00Z"
+  },
+  {
+    "_id": "order_008",
+    "user": {
+      "name": "Amanda White",
+      "email": "amanda.w@email.com"
+    },
+    "totalPrice": 284.84,
+    "status": "processing",
+    "items": [
+      {
+        "productId": 49,
+        "name": "Adidas Superstar",
+        "price": 284.84,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2024-01-08T15:10:00Z"
+  }
+]
