@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import productsData from '../../data/products.json';
 import { useCart } from '../../contexts/CartContext';
@@ -7,6 +7,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
 
   // Find the product by ID
   const product = productsData.find(p => p.id === parseInt(id));
@@ -29,16 +30,25 @@ const ProductDetails = () => {
     );
   }
 
+  const handleQuantityChange = (newQuantity) => {
+    const clampedQuantity = Math.max(1, Math.min(10, newQuantity));
+    setQuantity(clampedQuantity);
+  };
+
+  const handleIncrement = () => {
+    setQuantity(prev => Math.min(10, prev + 1));
+  };
+
+  const handleDecrement = () => {
+    setQuantity(prev => Math.max(1, prev - 1));
+  };
+
   const handleAddToCart = () => {
     // Get selected size
     const sizeInputs = document.querySelectorAll('input[name="size"]:checked');
     const selectedSize = sizeInputs.length > 0 ? sizeInputs[0].id.replace('size-', 'US ') : 'US 8';
 
-    // Get quantity
-    const quantityInput = document.querySelector('input[type="number"]');
-    const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
-
-    // Add to cart using CartContext
+    // Use state quantity instead of DOM reading
     addToCart(product, selectedSize, quantity);
     alert(`${product.name} (Size: ${selectedSize}, Qty: ${quantity}) added to cart!`);
   };
@@ -158,22 +168,86 @@ const ProductDetails = () => {
                     {/* Quantity */}
                     <div className="mb-4">
                       <h6 className="fw-bold mb-2">Quantity</h6>
-                      <div className="input-group" style={{ width: '120px' }}>
-                        <button className="btn btn-outline-dark" type="button">
+                      <div
+                        className="input-group d-flex align-items-center justify-content-center"
+                        style={{
+                          width: "160px",
+                        }}
+                      >
+                        <button
+                          className="btn btn-outline-dark"
+                          type="button"
+                          onClick={handleDecrement}
+                          disabled={quantity <= 1}
+                          style={{
+                            width: "50px",
+                            height: "45px",
+                            fontSize: "20px",
+                            fontWeight: "500",
+                            borderRadius: "6px 0 0 6px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <i className="fa fa-minus"></i>
                         </button>
+
                         <input
                           type="number"
                           className="form-control text-center"
-                          defaultValue="1"
+                          value={quantity}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            if (!isNaN(value)) {
+                              if (value < 1) setQuantity(1);
+                              else if (value > 10) setQuantity(10);
+                              else setQuantity(value);
+                            } else {
+                              setQuantity(1);
+                            }
+                          }}
                           min="1"
                           max="10"
+                          style={{
+                            width: "60px",
+                            height: "45px",
+                            color: "#000",
+                            fontWeight: "600",
+                            fontSize: "17px",
+                            textAlign: "center",
+                            backgroundColor: "#fff",
+                            borderTop: "1px solid #ced4da",
+                            borderBottom: "1px solid #ced4da",
+                            borderLeft: "none",
+                            borderRight: "none",
+                            boxShadow: "none",
+                            outline: "none",
+                          }}
                         />
-                        <button className="btn btn-outline-dark" type="button">
+
+                        <button
+                          className="btn btn-outline-dark"
+                          type="button"
+                          onClick={handleIncrement}
+                          disabled={quantity >= 10}
+                          style={{
+                            width: "50px",
+                            height: "45px",
+                            fontSize: "20px",
+                            fontWeight: "500",
+                            borderRadius: "0 6px 6px 0",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <i className="fa fa-plus"></i>
                         </button>
                       </div>
                     </div>
+
+
 
                     {/* Action Buttons */}
                     <div className="d-grid gap-3">
