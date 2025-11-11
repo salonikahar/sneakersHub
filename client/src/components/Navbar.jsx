@@ -106,18 +106,7 @@ const Navbar = () => {
               <Link className="nav-link fw-bold" to="/about">ABOUT</Link>
             </li>
 
-            {/* Add to Cart Button - Always visible */}
-            <li className="nav-item ms-2">
-              <Link to="/cart" className="btn btn-primary btn-sm position-relative">
-                <i className="fa fa-shopping-bag me-1"></i>
-                Add to Cart
-                {getCartItemCount() > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {getCartItemCount() > 99 ? '99+' : getCartItemCount()}
-                  </span>
-                )}
-              </Link>
-            </li>
+           
 
             {/* Cart Icon with Badge */}
             <li className="nav-item ms-2">

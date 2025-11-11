@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import nike1 from "../../assets/img/slider/nike1.jpg";
 import nike2 from "../../assets/img/slider/nike2.jpg";
 import nike3 from "../../assets/img/slider/nike3.jpg";
-import productsData from "../../data/products.json";
+import { useProducts } from "../../contexts/ProductsContext";
 import "../../assets/css/home.css";
 import "../../assets/css/style.css";
 
 const Home = () => {
+  const { products } = useProducts();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Slides data
@@ -126,7 +127,7 @@ const Home = () => {
             STEP INTO STYLE WITH THE ICONIC AIR JORDAN FOUR COLLECTION
           </h6>
           <div className="row">
-            {renderProducts(productsData.slice(0, 4))}
+            {renderProducts(products.slice(0, 4))}
           </div>
         </div>
       </section>
@@ -145,7 +146,7 @@ const Home = () => {
         <div className="container my-5">
           <h2 className="text-center mb-4">⭐ Best Sellers</h2>
           <div className="row">
-            {renderProducts(productsData.slice(4, 8))}
+            {renderProducts(products.slice(4, 8))}
           </div>
         </div>
       </section>
@@ -164,7 +165,7 @@ const Home = () => {
         <div className="container my-5">
           <h2 className="text-center mb-4">⭐ Best Sellers</h2>
           <div className="row">
-            {renderProducts(productsData.slice(8, 12))}
+            {renderProducts(products.slice(8, 12))}
           </div>
         </div>
       </section>

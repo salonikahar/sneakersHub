@@ -63,33 +63,19 @@ const AddProductModal = ({ show, onHide, onProductAdded }) => {
     setLoading(true);
 
     try {
-      // Get existing products
-      const response = await fetch('/src/data/products.json');
-      const existingProducts = await response.json();
-
-      // Generate new ID
-      const newId = Math.max(...existingProducts.map(p => p.id)) + 1;
-
-      // Create new product
+      // Create new product object
       const newProduct = {
-        id: newId,
         name: formData.name.trim(),
-        price: parseFloat(formData.price).toFixed(2),
+        price: formData.price.trim(),
         img: formData.img.trim(),
         category: formData.category,
         description: formData.description.trim()
       };
 
-      // Add to products array
-      const updatedProducts = [...existingProducts, newProduct];
-
-      // Save to file (in a real app, this would be an API call)
-      // For now, we'll simulate the update
-      console.log('New product to be added:', newProduct);
-      console.log('Updated products array:', updatedProducts);
-
-      // Show success message
-      alert('Product added successfully! (Note: In a real application, this would save to the server)');
+      // Notify parent component (which will handle adding to context)
+      if (onProductAdded) {
+        onProductAdded(newProduct);
+      }
 
       // Reset form
       setFormData({
@@ -99,11 +85,6 @@ const AddProductModal = ({ show, onHide, onProductAdded }) => {
         category: 'Jordan',
         description: ''
       });
-
-      // Notify parent component
-      if (onProductAdded) {
-        onProductAdded(newProduct);
-      }
 
       // Close modal
       onHide();

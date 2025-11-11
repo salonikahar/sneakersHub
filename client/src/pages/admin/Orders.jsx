@@ -1,42 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
-import axios from 'axios';
+import { useOrders } from '../../contexts/OrdersContext';
+import usersData from '../../data/users.json';
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { orders, updateOrderStatus } = useOrders();
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
-    try {
-      const token = localStorage.getItem('adminToken');
-      const response = await axios.get('http://localhost:5000/api/orders', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setOrders(response.data.data || []);
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-    } finally {
-      setLoading(false);
-    }
+  const getUserDetails = (email) => {
+    return usersData.find(user => user.email === email);
   };
 
-  const handleStatusUpdate = async (orderId, newStatus) => {
-    try {
-      const token = localStorage.getItem('adminToken');
-      await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, 
-        { status: newStatus },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      fetchOrders();
-    } catch (error) {
-      console.error('Error updating order status:', error);
-    }
+  const handleStatusUpdate = (orderId, newStatus) => {
+    updateOrderStatus(orderId, newStatus);
   };
 
   const handleViewOrder = (order) => {
@@ -65,30 +42,11 @@ const Orders = () => {
     });
   };
 
-  if (loading) {
-    return (
-      <AdminLayout>
-        <div className="d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      </AdminLayout>
-    );
-  }
-
   return (
     <AdminLayout>
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="mb-0">Orders Management</h2>
-          <button 
-            className="btn btn-primary"
-            onClick={fetchOrders}
-          >
-            <i className="fas fa-sync-alt me-2"></i>
-            Refresh
-          </button>
         </div>
 
         {/* Orders Table */}
@@ -122,7 +80,7 @@ const Orders = () => {
                       </td>
                       <td>
                         <span className="badge bg-secondary">
-                          {order.orderItems?.length || 0} items
+                          {order.items?.length || 0} items
                         </span>
                       </td>
                       <td>
@@ -181,13 +139,38 @@ const Orders = () => {
                   <div className="row mb-4">
                     <div className="col-md-6">
                       <h6>Customer Information</h6>
-                      <p><strong>Name:</strong> {selectedOrder.user?.name || 'N/A'}</p>
-                      <p><strong>Email:</strong> {selectedOrder.user?.email || 'N/A'}</p>
+                      {(() => {
+                        const fullUser = getUserDetails(selectedOrder.user?.email);
+                        return (
+                          <>
+                            <div className="d-flex align-items-center mb-2">
+                              <img
+                                src={fullUser?.avatar || '/assets/img/images.png'}
+                                alt={fullUser?.name || 'Avatar'}
+                                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                className="rounded-circle me-3"
+                              />
+                              <div>
+                                <p className="mb-0"><strong>Name:</strong> {selectedOrder.user?.name || 'N/A'}</p>
+                                <p className="mb-0"><strong>Email:</strong> {selectedOrder.user?.email || 'N/A'}</p>
+                              </div>
+                            </div>
+                            <p><strong>Join Date:</strong> {fullUser?.joinDate ? new Date(fullUser.joinDate).toLocaleDateString() : 'N/A'}</p>
+                            <p><strong>Total Orders:</strong> {fullUser?.totalOrders || 'N/A'}</p>
+                            <p><strong>Total Spent:</strong> ${fullUser?.totalSpent?.toFixed(2) || 'N/A'}</p>
+                            <p><strong>Status:</strong>
+                              <span className={`badge bg-${fullUser?.status === 'active' ? 'success' : 'secondary'} ms-2`}>
+                                {fullUser?.status || 'N/A'}
+                              </span>
+                            </p>
+                          </>
+                        );
+                      })()}
                     </div>
                     <div className="col-md-6">
                       <h6>Order Information</h6>
                       <p><strong>Order Date:</strong> {formatDate(selectedOrder.createdAt)}</p>
-                      <p><strong>Status:</strong> 
+                      <p><strong>Status:</strong>
                         <span className={`badge bg-${getStatusColor(selectedOrder.status)} ms-2`}>
                           {selectedOrder.status}
                         </span>
@@ -197,11 +180,7 @@ const Orders = () => {
 
                   <div className="mb-4">
                     <h6>Shipping Address</h6>
-                    <p>
-                      {selectedOrder.shippingAddress?.address}<br />
-                      {selectedOrder.shippingAddress?.city}, {selectedOrder.shippingAddress?.postalCode}<br />
-                      {selectedOrder.shippingAddress?.country}
-                    </p>
+                    <p>Not provided</p>
                   </div>
 
                   <div className="mb-4">
@@ -291,4 +270,3 @@ const Orders = () => {
 };
 
 export default Orders;
-

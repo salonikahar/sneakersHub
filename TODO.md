@@ -1,12 +1,12 @@
-# Fix Quantity Button in ProductDetails.jsx
+# TODO: Replace Alerts with Toast Notifications
 
-## Tasks
-- [x] Add useState for quantity management
-- [x] Add increment/decrement functions with bounds checking (1-10)
-- [x] Add onClick handlers to quantity buttons
-- [x] Make quantity input controlled with state
-- [x] Update handleAddToCart to use state quantity instead of DOM reading
-- [x] Test the functionality
-
-## Status
-Completed
+## Steps to Complete
+- [ ] Update App.jsx to import and add ToastContainer from react-toastify
+- [ ] Replace alerts in SignIn.jsx with toast notifications
+- [ ] Replace alert in Shop.jsx with toast notification
+- [ ] Replace alert in ProductDetails.jsx with toast notification
+- [ ] Replace alert in Contact.jsx with toast notification
+- [ ] Replace alert in Checkout.jsx with toast notification
+- [ ] Replace alerts in Products.jsx with toast notifications
+- [ ] Replace alerts in AddProductModal.jsx with toast notifications
+- [ ] Test the application to ensure notifications work correctly

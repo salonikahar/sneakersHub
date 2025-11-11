@@ -3,11 +3,15 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 // Context
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { OrdersProvider } from './contexts/OrdersContext';
+import { ProductsProvider } from './contexts/ProductsContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -18,6 +22,7 @@ import Cart from './pages/user/Cart';
 import SignIn from './pages/user/SignIn';
 import ProductDetails from './pages/user/ProductDetails';
 import Checkout from './pages/user/Checkout';
+import OrderSuccess from './pages/user/OrderSuccess';
 import Footer from './components/Footer';
 import Home from './pages/user/Home';   // ✅ Import fixed
 
@@ -56,6 +61,7 @@ function AppWrapper() {
             </ProtectedRoute>
           }
         />
+        <Route path="/order-success" element={<OrderSuccess />} />
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
@@ -105,9 +111,25 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Router>
-          <AppWrapper />
-        </Router>
+        <OrdersProvider>
+          <ProductsProvider>
+            <Router>
+              <AppWrapper />
+              <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
+            </Router>
+          </ProductsProvider>
+        </OrdersProvider>
       </CartProvider>
     </AuthProvider>
   );

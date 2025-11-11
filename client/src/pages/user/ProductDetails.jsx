@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import productsData from '../../data/products.json';
+import { useProducts } from '../../contexts/ProductsContext';
 import { useCart } from '../../contexts/CartContext';
+import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { products } = useProducts();
   const [quantity, setQuantity] = useState(1);
 
+  // Scroll to top when component mounts
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
   // Find the product by ID
-  const product = productsData.find(p => p.id === parseInt(id));
+  const product = products.find(p => p.id === parseInt(id));
 
   // If product not found, show error
   if (!product) {
-    return (
-      <div className="container-fluid mt-4">
+  return (
+    <div id="product-details-top" className="container-fluid mt-4">
         <div className="row">
           <div className="col-12 text-center py-5">
             <h2 className="text-danger mb-4">Product Not Found</h2>
@@ -50,7 +57,7 @@ const ProductDetails = () => {
 
     // Use state quantity instead of DOM reading
     addToCart(product, selectedSize, quantity);
-    alert(`${product.name} (Size: ${selectedSize}, Qty: ${quantity}) added to cart!`);
+    toast.success(`${product.name} added to cart!`);
   };
 
   return (
@@ -297,7 +304,7 @@ const ProductDetails = () => {
           <div className="mt-5">
             <h3 className="fw-bold mb-4">Related Products</h3>
             <div className="row g-4">
-              {productsData
+              {products
                 .filter(p => p.category === product.category && p.id !== product.id)
                 .slice(0, 4)
                 .map((relatedProduct) => (

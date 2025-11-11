@@ -164,3 +164,36 @@
       color: #fff;
       border-radius: 0;
     }
+
+    .breadcrumb-container {
+  background: #f8f9fa;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e3e3e3;
+}
+
+.breadcrumb {
+  margin: 0;
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  color: #6c5ce7;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.breadcrumb-item a:hover {
+  color: #341f97;
+}
+
+.breadcrumb-item.active {
+  color: #2d3436;
+  font-weight: 600;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #777;
+  margin: 0 6px;
+}

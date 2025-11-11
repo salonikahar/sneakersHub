@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import productsData from '../../data/products.json';
+import { useProducts } from '../../contexts/ProductsContext';
 import { useCart } from '../../contexts/CartContext';
+import { toast } from 'react-toastify';
 
 const Shop = () => {
+  const { products } = useProducts();
   const { addToCart } = useCart();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8);
   const [searchParams] = useSearchParams();
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
+  const [sortOption, setSortOption] = useState('Featured');
 
-  // Load products from JSON file
+  // Load products from context
   useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        // Since we're importing JSON directly, we can set it immediately
-        setProducts(productsData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error loading products:', error);
-        setLoading(false);
-      }
-    };
-
-    loadProducts();
-  }, []);
+    if (products.length > 0) {
+      setLoading(false);
+    }
+  }, [products]);
 
   // Read search query from URL parameter
   useEffect(() => {
@@ -40,7 +34,7 @@ const Shop = () => {
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, searchTerm, selectedPriceRanges, sortOption]);
 
   // Generate categories dynamically from products data
   const categories = ['All', ...new Set(products.map(product => product.category))];
@@ -52,11 +46,27 @@ const Shop = () => {
     return matchesCategory && matchesSearch;
   });
 
+  // Sort products based on sortOption
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortOption) {
+      case 'Price: Low to High':
+        return a.price - b.price;
+      case 'Price: High to Low':
+        return b.price - a.price;
+      case 'Name: A to Z':
+        return a.name.localeCompare(b.name);
+      case 'Name: Z to A':
+        return b.name.localeCompare(a.name);
+      default:
+        return 0; // Featured, no sort
+    }
+  });
+
   // Pagination logic
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   // Pagination handlers
   const handlePageChange = (pageNumber) => {
@@ -78,7 +88,7 @@ const Shop = () => {
   const handleAddToCart = (product) => {
     console.log('Adding to cart:', product);
     addToCart(product, 'US 8', 1);
-    alert(`${product.name} added to cart!`);
+    toast.success(`${product.name} added to cart!`);
   };
 
   // Show loading state
@@ -164,12 +174,12 @@ const Shop = () => {
               />
             </div>
             <div className="col-md-6">
-              <select className="form-select">
-                <option>Sort by: Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Name: A to Z</option>
-                <option>Name: Z to A</option>
+              <select className="form-select" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                <option value="Featured">Sort by: Featured</option>
+                <option value="Price: Low to High">Price: Low to High</option>
+                <option value="Price: High to Low">Price: High to Low</option>
+                <option value="Name: A to Z">Name: A to Z</option>
+                <option value="Name: Z to A">Name: Z to A</option>
               </select>
             </div>
           </div>

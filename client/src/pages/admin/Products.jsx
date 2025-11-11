@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
-import productsData from '../../data/products.json';
+import AddProductModal from '../../components/admin/AddProductModal';
+import { useProducts } from '../../contexts/ProductsContext';
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
+  const { products, addProduct, deleteProduct } = useProducts();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -16,11 +17,10 @@ const Products = () => {
   const categories = ['All', 'Jordan', 'Nike', 'Adidas'];
 
   useEffect(() => {
-    // Load products from JSON file
-    setProducts(productsData);
-    setFilteredProducts(productsData);
+    // Load products from context
+    setFilteredProducts(products);
     setLoading(false);
-  }, []);
+  }, [products]);
 
   useEffect(() => {
     // Filter products based on search term and category
@@ -92,7 +92,7 @@ const Products = () => {
               <i className="fas fa-download me-2"></i>
               Export Products
             </button>
-            <button className="btn btn-primary">
+            <button className="btn btn-primary" onClick={() => setShowModal(true)}>
               <i className="fas fa-plus me-2"></i>
               Add Product
             </button>
@@ -343,6 +343,16 @@ const Products = () => {
             </div>
           </div>
         </div>
+
+        {/* Add Product Modal */}
+        <AddProductModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          onProductAdded={(newProduct) => {
+            addProduct(newProduct);
+            setShowModal(false);
+          }}
+        />
       </div>
     </AdminLayout>
   );

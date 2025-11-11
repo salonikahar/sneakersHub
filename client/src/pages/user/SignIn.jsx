@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ const SignIn = () => {
         };
 
         login(userData);
-        alert('Login successful! Welcome back to SneakersHub!');
+        toast.success('Login successful! Welcome back to SneakersHub!');
 
         // Redirect to the page user was trying to access or home
         navigate(from, { replace: true });
@@ -117,20 +118,20 @@ const SignIn = () => {
         };
 
         signup(userData);
-        alert('Registration successful! Welcome to SneakersHub!');
+        toast.success('Registration successful! Welcome to SneakersHub!');
 
         // Redirect to the page user was trying to access or home
         navigate(from, { replace: true });
       }
     } catch (error) {
-      alert(error.message || 'An error occurred. Please try again.');
+      toast.error(error.message || 'An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSocialLogin = (provider) => {
-    alert(`${provider} login is not implemented yet. Please use email login.`);
+    toast.info(`${provider} login is not implemented yet. Please use email login.`);
   };
 
   return (
