@@ -200,7 +200,12 @@ const Shop = () => {
                 <div className="card product-card shadow-sm border-0 h-100">
                   <img src={product.img} className="card-img-top product-img" alt={product.name} />
                   <div className="card-body text-center">
-                    <h6 className="card-title fw-bold">{product.name}</h6>
+                    <h6 className="card-title fw-bold">
+                      {product.name}
+                      {product.isNew && (
+                        <span className="badge bg-success ms-2">NEW</span>
+                      )}
+                    </h6>
                     <p className="card-text text-success fw-semibold">${product.price}</p>
                     <div className="d-grid gap-2">
                       <button

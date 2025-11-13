@@ -76,6 +76,10 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    // Clear cart when user logs out
+    localStorage.removeItem('cart');
+    // Dispatch event to notify cart context to clear cart
+    window.dispatchEvent(new CustomEvent('userLoggedOut'));
   };
 
   const isAuthenticated = () => {

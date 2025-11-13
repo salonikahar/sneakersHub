@@ -24,8 +24,8 @@ const AdminLogin = () => {
       formData.email === "admin@sneakershub.com" &&
       formData.password === "admin123"
     ) {
-      localStorage.setItem("adminToken", "dummy-token");
-      localStorage.setItem(
+      sessionStorage.setItem("adminToken", "dummy-token");
+      sessionStorage.setItem(
         "adminUser",
         JSON.stringify({ email: formData.email, role: "admin" })
       );

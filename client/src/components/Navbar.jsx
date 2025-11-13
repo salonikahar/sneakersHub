@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const { getCartItemCount } = useCart();
+  const { user, logout, isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
   const navigate = useNavigate();
 
   const handleSearchSubmit = (e) => {
@@ -16,40 +16,8 @@ const Navbar = () => {
     }
   };
 
-  // Update user info when component mounts
-  useEffect(() => {
-    const updateUserInfo = () => {
-      const user = localStorage.getItem('user');
-      if (user) {
-        const userData = JSON.parse(user);
-        setIsUserLoggedIn(userData.isLoggedIn);
-        setUserName(userData.name || userData.email);
-      } else {
-        setIsUserLoggedIn(false);
-        setUserName('');
-      }
-    };
-
-    updateUserInfo();
-
-    // Listen for storage changes
-    const handleStorageChange = (e) => {
-      if (e.key === 'user') {
-        updateUserInfo();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    setIsUserLoggedIn(false);
-    setUserName('');
+    logout();
     navigate('/');
   };
 
@@ -129,14 +97,14 @@ const Navbar = () => {
                 aria-expanded="false"
               >
                 <i className="fa fa-user me-2"></i>
-                {isUserLoggedIn ? (
-                  <span className="d-none d-md-inline">{userName}</span>
+                {isAuthenticated() ? (
+                  <span className="d-none d-md-inline">{user?.name || user?.email || 'User'}</span>
                 ) : (
                   <span>Account</span>
                 )}
               </button>
               <ul className="dropdown-menu dropdown-menu-end">
-                {isUserLoggedIn ? (
+                {isAuthenticated() ? (
                   <>
                     <li className="dropdown-header">
                       <small className="text-muted">Welcome back!</small>
@@ -144,7 +112,7 @@ const Navbar = () => {
                     <li>
                       <Link className="dropdown-item" to="/profile">
                         <i className="fa fa-user me-2"></i>
-                        My Profile
+                        View Profile
                       </Link>
                     </li>
                     <li>

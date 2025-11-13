@@ -62,7 +62,12 @@ const Home = () => {
         <div className="card shadow-sm border-0 h-100">
           <img src={product.img} className="card-img-top" alt={product.name} />
           <div className="card-body text-center">
-            <h5 className="card-title fw-bold">{product.name}</h5>
+            <h5 className="card-title fw-bold">
+              {product.name}
+              {product.isNew && (
+                <span className="badge bg-success ms-2">NEW</span>
+              )}
+            </h5>
             <p className="card-text text-success fw-semibold">${product.price}</p>
             <Link to={`/product/${product.id}`} className="btn btn-warning fw-bold text-white">Get Yours</Link>
           </div>

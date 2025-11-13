@@ -19,17 +19,33 @@ export const ProductsProvider = ({ children }) => {
     const loadProducts = () => {
       try {
         const savedProducts = localStorage.getItem('products');
-        if (savedProducts) {
+        if (savedProducts && JSON.parse(savedProducts).length > 0) {
           const productsData = JSON.parse(savedProducts);
-          setProducts(productsData);
+          // Ensure all products have stock and rating fields
+          const updatedProducts = productsData.map(product => ({
+            ...product,
+            stock: product.stock || Math.floor(Math.random() * 50) + 10,
+            rating: product.rating || parseFloat((Math.random() * 2 + 3).toFixed(1))
+          }));
+          setProducts(updatedProducts);
         } else {
           // Load from JSON and save to localStorage
-          setProducts(productsData);
-          localStorage.setItem('products', JSON.stringify(productsData));
+          const updatedProductsData = productsData.map(product => ({
+            ...product,
+            stock: product.stock || Math.floor(Math.random() * 50) + 10,
+            rating: product.rating || parseFloat((Math.random() * 2 + 3).toFixed(1))
+          }));
+          setProducts(updatedProductsData);
+          localStorage.setItem('products', JSON.stringify(updatedProductsData));
         }
       } catch (error) {
         console.error('Error loading products from localStorage:', error);
-        setProducts(productsData);
+        const updatedProductsData = productsData.map(product => ({
+          ...product,
+          stock: product.stock || Math.floor(Math.random() * 50) + 10,
+          rating: product.rating || parseFloat((Math.random() * 2 + 3).toFixed(1))
+        }));
+        setProducts(updatedProductsData);
       }
     };
 
@@ -53,7 +69,11 @@ export const ProductsProvider = ({ children }) => {
       price: parseFloat(productData.price).toFixed(2),
       img: productData.img.trim(),
       category: productData.category,
-      description: productData.description.trim()
+      description: productData.description.trim(),
+      stock: productData.stock || Math.floor(Math.random() * 50) + 10,
+      rating: productData.rating || parseFloat((Math.random() * 2 + 3).toFixed(1)),
+      isNew: true, // Mark as new product
+      addedDate: new Date().toISOString()
     };
 
     setProducts(prevProducts => [...prevProducts, newProduct]);

@@ -9,6 +9,15 @@ const Orders = () => {
   const [showModal, setShowModal] = useState(false);
 
   const getUserDetails = (email) => {
+    // First check registered users in localStorage
+    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    const registeredUser = registeredUsers.find(user => user.email === email);
+
+    if (registeredUser) {
+      return registeredUser;
+    }
+
+    // Fallback to static data
     return usersData.find(user => user.email === email);
   };
 

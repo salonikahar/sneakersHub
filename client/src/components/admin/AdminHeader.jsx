@@ -6,15 +6,15 @@ const AdminHeader = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = localStorage.getItem('adminUser');
+    const user = sessionStorage.getItem('adminUser');
     if (user) {
       setAdminUser(JSON.parse(user));
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminUser');
+    sessionStorage.removeItem('adminToken');
+    sessionStorage.removeItem('adminUser');
     navigate('/admin/login');
   };
 

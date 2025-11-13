@@ -1,12 +1,3 @@
-# TODO: Replace Alerts with Toast Notifications
-
-## Steps to Complete
-- [ ] Update App.jsx to import and add ToastContainer from react-toastify
-- [ ] Replace alerts in SignIn.jsx with toast notifications
-- [ ] Replace alert in Shop.jsx with toast notification
-- [ ] Replace alert in ProductDetails.jsx with toast notification
-- [ ] Replace alert in Contact.jsx with toast notification
-- [ ] Replace alert in Checkout.jsx with toast notification
-- [ ] Replace alerts in Products.jsx with toast notifications
-- [ ] Replace alerts in AddProductModal.jsx with toast notifications
-- [ ] Test the application to ensure notifications work correctly
+- [x] Update AdminLogin.jsx to use sessionStorage instead of localStorage for admin authentication
+- [x] Update AdminRoute.jsx to check sessionStorage for admin authentication
+- [x] Update AdminHeader.jsx to use sessionStorage for admin user data and logout

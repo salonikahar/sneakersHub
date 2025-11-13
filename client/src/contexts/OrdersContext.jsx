@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import ordersData from '../data/orders.json';
 
 const OrdersContext = createContext();
 
@@ -15,20 +16,41 @@ export const OrdersProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
 
-  // Load orders from localStorage on mount
+  // Load orders from localStorage on mount, fallback to JSON
   useEffect(() => {
     const loadOrders = () => {
       try {
         const savedOrders = localStorage.getItem('orders');
-        if (savedOrders) {
+        if (savedOrders && JSON.parse(savedOrders).length > 0) {
           const ordersData = JSON.parse(savedOrders);
-          setOrders(ordersData);
+          // Ensure all orders have consistent data structure
+          const updatedOrders = ordersData.map(order => ({
+            ...order,
+            totalPrice: order.totalPrice || order.total || 0,
+            createdAt: order.createdAt || new Date().toISOString(),
+            status: order.status || 'pending'
+          }));
+          setOrders(updatedOrders);
         } else {
-          setOrders([]);
+          // Load from JSON and save to localStorage
+          const updatedOrdersData = ordersData.map(order => ({
+            ...order,
+            totalPrice: order.totalPrice || order.total || 0,
+            createdAt: order.createdAt || new Date().toISOString(),
+            status: order.status || 'pending'
+          }));
+          setOrders(updatedOrdersData);
+          localStorage.setItem('orders', JSON.stringify(updatedOrdersData));
         }
       } catch (error) {
         console.error('Error loading orders from localStorage:', error);
-        setOrders([]);
+        const updatedOrdersData = ordersData.map(order => ({
+          ...order,
+          totalPrice: order.totalPrice || order.total || 0,
+          createdAt: order.createdAt || new Date().toISOString(),
+          status: order.status || 'pending'
+        }));
+        setOrders(updatedOrdersData);
       }
     };
 

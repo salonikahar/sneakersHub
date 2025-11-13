@@ -99,7 +99,12 @@ const ProductDetails = () => {
                 {/* Product Details */}
                 <div className="col-lg-6">
                   <div className="p-5">
-                    <h1 className="fw-bold mb-3">{product.name}</h1>
+                    <h1 className="fw-bold mb-3">
+                      {product.name}
+                      {product.isNew && (
+                        <span className="badge bg-success ms-2">NEW</span>
+                      )}
+                    </h1>
 
                     {/* Rating */}
                     <div className="mb-3">

@@ -6,9 +6,9 @@ const AdminRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    const user = localStorage.getItem('adminUser');
-    
+    const token = sessionStorage.getItem('adminToken');
+    const user = sessionStorage.getItem('adminUser');
+
     if (token && user) {
       const userData = JSON.parse(user);
       if (userData.role === 'admin') {

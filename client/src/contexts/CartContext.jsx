@@ -37,6 +37,20 @@ export const CartProvider = ({ children }) => {
     setIsInitialized(true);
   }, []);
 
+  // Listen for user logout event to clear cart
+  useEffect(() => {
+    const handleUserLogout = () => {
+      console.log('User logged out, clearing cart');
+      setCartItems([]);
+    };
+
+    window.addEventListener('userLoggedOut', handleUserLogout);
+
+    return () => {
+      window.removeEventListener('userLoggedOut', handleUserLogout);
+    };
+  }, []);
+
   // Save cart to localStorage whenever cartItems change
   useEffect(() => {
     if (isInitialized) {

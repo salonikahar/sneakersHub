@@ -55,9 +55,8 @@ const Products = () => {
 
   const handleDelete = (productId) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      // In a real app, this would make an API call
-      // For now, we'll just show an alert
-      alert('Product deletion would be implemented with backend API');
+      deleteProduct(productId);
+      alert('Product deleted successfully!');
     }
   };
 
@@ -216,6 +215,9 @@ const Products = () => {
                       <td>
                         <div>
                           <strong>{product.name}</strong>
+                          {product.isNew && (
+                            <span className="badge bg-success ms-2">NEW</span>
+                          )}
                           <br />
                           <small className="text-muted">ID: {product.id}</small>
                         </div>

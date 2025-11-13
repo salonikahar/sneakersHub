@@ -1,46 +1,119 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
+import { useProducts } from '../../contexts/ProductsContext';
+import { useOrders } from '../../contexts/OrdersContext';
 
-// Import local data
+// Import local data as fallback
 import productsData from '../../data/products.json';
 import ordersData from '../../data/orders.json';
 import usersData from '../../data/users.json';
 
 const Dashboard = () => {
+  const { products } = useProducts();
+  const { orders } = useOrders();
+
   const [stats, setStats] = useState({
     totalProducts: 0,
     totalOrders: 0,
     totalUsers: 0,
     totalRevenue: 0,
     recentOrders: [],
-    topProducts: []
+    topProducts: [],
+    monthlyRevenue: 0,
+    pendingOrders: 0,
+    lowStockProducts: 0,
+    activeUsers: 0
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [products, orders]);
 
   const fetchDashboardData = () => {
     try {
-      // Use local data instead of API calls
-      const totalProducts = productsData.length;
-      const totalOrders = ordersData.length;
-      const totalUsers = usersData.length;
+      // Use dynamic data from contexts, fallback to static data
+      const currentProducts = products.length > 0 ? products : productsData;
+      const currentOrders = orders.length > 0 ? orders : ordersData;
 
-      // Calculate total revenue from orders
-      const totalRevenue = ordersData.reduce(
-        (sum, order) => sum + parseFloat(order.totalPrice || 0),
+      // Get registered users from localStorage
+      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      const currentUsers = registeredUsers.length > 0 ? registeredUsers : usersData;
+
+      const totalProducts = currentProducts.length;
+      const totalOrders = currentOrders.length;
+      const totalUsers = currentUsers.length;
+
+      // Calculate total revenue from orders with error handling
+      const totalRevenue = currentOrders.reduce(
+        (sum, order) => {
+          const price = parseFloat(order.totalPrice || order.total || 0);
+          return sum + (isNaN(price) ? 0 : price);
+        },
         0
       );
 
-      // Get recent orders (last 5)
-      const recentOrders = [...ordersData]
+      // Calculate monthly revenue (current month) with error handling
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      const monthlyRevenue = currentOrders
+        .filter(order => {
+          try {
+            const orderDate = new Date(order.createdAt);
+            return orderDate.getMonth() === currentMonth && orderDate.getFullYear() === currentYear;
+          } catch (error) {
+            console.warn('Invalid date format for order:', order._id);
+            return false;
+          }
+        })
+        .reduce((sum, order) => {
+          const price = parseFloat(order.totalPrice || order.total || 0);
+          return sum + (isNaN(price) ? 0 : price);
+        }, 0);
+
+      // Count pending orders with status validation
+      const pendingOrders = currentOrders.filter(order =>
+        order.status && order.status.toLowerCase() === 'pending'
+      ).length;
+
+      // Count low stock products (assuming stock < 10 is low) with validation
+      const lowStockProducts = currentProducts.filter(product => {
+        const stock = parseInt(product.stock || 0);
+        return !isNaN(stock) && stock < 10;
+      }).length;
+
+      // Count active users (users who have logged in recently - within last 30 days)
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const activeUsers = currentUsers.filter(user => {
+        if (!user.loginTime) return false;
+        try {
+          return new Date(user.loginTime) > thirtyDaysAgo;
+        } catch (error) {
+          return false;
+        }
+      }).length;
+
+      // Get recent orders (last 5) with date validation
+      const recentOrders = [...currentOrders]
+        .filter(order => {
+          try {
+            new Date(order.createdAt);
+            return true;
+          } catch (error) {
+            console.warn('Invalid date format for order:', order._id);
+            return false;
+          }
+        })
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, 5);
 
-      // Get top products (by price, highest first)
-      const topProducts = [...productsData]
+      // Get top products (by price, highest first) with validation
+      const topProducts = [...currentProducts]
+        .filter(product => {
+          const price = parseFloat(product.price || 0);
+          return !isNaN(price);
+        })
         .sort((a, b) => parseFloat(b.price || 0) - parseFloat(a.price || 0))
         .slice(0, 5);
 
@@ -50,7 +123,11 @@ const Dashboard = () => {
         totalUsers,
         totalRevenue,
         recentOrders,
-        topProducts
+        topProducts,
+        monthlyRevenue,
+        pendingOrders,
+        lowStockProducts,
+        activeUsers
       });
     } catch (error) {
       console.error('Error loading dashboard data:', error);
@@ -133,21 +210,54 @@ const Dashboard = () => {
           />
         </div>
 
+        {/* Additional Statistics Cards */}
+        <div className="row mb-4">
+          <StatCard
+            title="Monthly Revenue"
+            value={`$${stats.monthlyRevenue.toFixed(2)}`}
+            icon="fas fa-calendar-alt"
+            color="secondary"
+            subtitle="This month"
+          />
+          <StatCard
+            title="Pending Orders"
+            value={stats.pendingOrders}
+            icon="fas fa-clock"
+            color="warning"
+            subtitle="Awaiting processing"
+          />
+          <StatCard
+            title="Low Stock Alert"
+            value={stats.lowStockProducts}
+            icon="fas fa-exclamation-triangle"
+            color="danger"
+            subtitle="Products < 10 stock"
+          />
+          <StatCard
+            title="Active Users"
+            value={stats.activeUsers}
+            icon="fas fa-user-check"
+            color="success"
+            subtitle="Last 30 days"
+          />
+        </div>
+
         <div className="row">
           {/* Recent Orders */}
           <div className="col-md-6 mb-4">
             <div className="card shadow-sm">
-              <div className="card-header bg-white">
+              <div className="card-header bg-white d-flex justify-content-between align-items-center">
                 <h5 className="mb-0">
                   <i className="fas fa-clock me-2"></i>
                   Recent Orders
                 </h5>
+                <span className="badge bg-primary">{stats.recentOrders.length}</span>
               </div>
               <div className="card-body">
                 {stats.recentOrders.length > 0 ? (
                   <div className="table-responsive">
-                    <table className="table table-sm">
-                      <thead>
+                    <table className="table table-sm table-hover">
+                      <thead className="table-light">
                         <tr>
                           <th>Order ID</th>
                           <th>Customer</th>
@@ -158,9 +268,25 @@ const Dashboard = () => {
                       <tbody>
                         {stats.recentOrders.map((order, index) => (
                           <tr key={order.id || index}>
-                            <td>#{(order.id || '').toString().slice(-6)}</td>
-                            <td>{order.user?.name || 'N/A'}</td>
-                            <td>${parseFloat(order.totalPrice || 0).toFixed(2)}</td>
+                            <td>
+                              <strong className="text-primary">#{(order.id || '').toString().slice(-6)}</strong>
+                            </td>
+                            <td>
+                              <div className="d-flex align-items-center">
+                                <div className="avatar me-2">
+                                  <div
+                                    className="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold"
+                                    style={{ width: '30px', height: '30px', fontSize: '12px' }}
+                                  >
+                                    {(order.user?.name || 'N').charAt(0).toUpperCase()}
+                                  </div>
+                                </div>
+                                {order.user?.name || 'N/A'}
+                              </div>
+                            </td>
+                            <td>
+                              <strong>${parseFloat(order.totalPrice || order.total || 0).toFixed(2)}</strong>
+                            </td>
                             <td>
                               <span className={`badge bg-${getStatusColor(order.status)}`}>
                                 {order.status || 'N/A'}
@@ -172,7 +298,10 @@ const Dashboard = () => {
                     </table>
                   </div>
                 ) : (
-                  <p className="text-muted text-center mb-0">No recent orders</p>
+                  <div className="text-center py-4">
+                    <i className="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                    <p className="text-muted mb-0">No recent orders</p>
+                  </div>
                 )}
               </div>
             </div>
@@ -181,17 +310,18 @@ const Dashboard = () => {
           {/* Top Products */}
           <div className="col-md-6 mb-4">
             <div className="card shadow-sm">
-              <div className="card-header bg-white">
+              <div className="card-header bg-white d-flex justify-content-between align-items-center">
                 <h5 className="mb-0">
                   <i className="fas fa-star me-2"></i>
                   Top Products
                 </h5>
+                <span className="badge bg-warning text-dark">{stats.topProducts.length}</span>
               </div>
               <div className="card-body">
                 {stats.topProducts.length > 0 ? (
                   <div className="table-responsive">
-                    <table className="table table-sm">
-                      <thead>
+                    <table className="table table-sm table-hover">
+                      <thead className="table-light">
                         <tr>
                           <th>Product</th>
                           <th>Price</th>
@@ -202,14 +332,36 @@ const Dashboard = () => {
                       <tbody>
                         {stats.topProducts.map((product, index) => (
                           <tr key={product.id || index}>
-                            <td>{product.name}</td>
-                            <td>${parseFloat(product.price || 0).toFixed(2)}</td>
-                            <td>{product.stock || 0}</td>
                             <td>
-                              <span className="text-warning">
-                                <i className="fas fa-star"></i>
-                                {parseFloat(product.rating || 0).toFixed(1)}
+                              <div className="d-flex align-items-center">
+                                <img
+                                  src={product.img || '/assets/img/images.png'}
+                                  alt={product.name}
+                                  style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                                  className="rounded me-2"
+                                />
+                                <div>
+                                  <strong>{product.name}</strong>
+                                  <br />
+                                  <small className="text-muted">ID: {product.id}</small>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <strong className="text-success">${parseFloat(product.price || 0).toFixed(2)}</strong>
+                            </td>
+                            <td>
+                              <span className={`badge ${product.stock < 10 ? 'bg-danger' : 'bg-success'}`}>
+                                {product.stock || 0}
                               </span>
+                            </td>
+                            <td>
+                              <div className="d-flex align-items-center">
+                                <span className="text-warning me-1">
+                                  <i className="fas fa-star"></i>
+                                </span>
+                                <strong>{parseFloat(product.rating || 0).toFixed(1)}</strong>
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -217,8 +369,92 @@ const Dashboard = () => {
                     </table>
                   </div>
                 ) : (
-                  <p className="text-muted text-center mb-0">No products available</p>
+                  <div className="text-center py-4">
+                    <i className="fas fa-box-open fa-3x text-muted mb-3"></i>
+                    <p className="text-muted mb-0">No products available</p>
+                  </div>
                 )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Additional Analytics Section */}
+        <div className="row">
+          {/* Revenue Chart Placeholder */}
+          <div className="col-md-8 mb-4">
+            <div className="card shadow-sm">
+              <div className="card-header bg-white">
+                <h5 className="mb-0">
+                  <i className="fas fa-chart-line me-2"></i>
+                  Revenue Analytics
+                </h5>
+              </div>
+              <div className="card-body">
+                <div className="row text-center">
+                  <div className="col-md-6">
+                    <div className="p-3 bg-light rounded">
+                      <h4 className="text-primary mb-1">${stats.totalRevenue.toFixed(2)}</h4>
+                      <p className="text-muted mb-0">Total Revenue</p>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="p-3 bg-light rounded">
+                      <h4 className="text-success mb-1">${stats.monthlyRevenue.toFixed(2)}</h4>
+                      <p className="text-muted mb-0">This Month</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <small className="text-muted">
+                    <i className="fas fa-info-circle me-1"></i>
+                    Revenue data is calculated from all completed orders
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="col-md-4 mb-4">
+            <div className="card shadow-sm">
+              <div className="card-header bg-white">
+                <h5 className="mb-0">
+                  <i className="fas fa-bolt me-2"></i>
+                  Quick Actions
+                </h5>
+              </div>
+              <div className="card-body">
+                <div className="d-grid gap-2">
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={() => window.location.href = '/admin/products'}
+                  >
+                    <i className="fas fa-plus me-2"></i>
+                    Add New Product
+                  </button>
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={() => window.location.href = '/admin/users'}
+                  >
+                    <i className="fas fa-users me-2"></i>
+                    View All Users
+                  </button>
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => window.location.href = '/admin/orders'}
+                  >
+                    <i className="fas fa-shopping-cart me-2"></i>
+                    Process Orders
+                  </button>
+                  <button
+                    className="btn btn-outline-info"
+                    onClick={() => window.location.href = '/admin/dashboard'}
+                  >
+                    <i className="fas fa-chart-bar me-2"></i>
+                    View Reports
+                  </button>
+                </div>
               </div>
             </div>
           </div>

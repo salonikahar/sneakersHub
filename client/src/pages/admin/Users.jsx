@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
+import usersData from '../../data/users.json';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -25,10 +26,16 @@ const Users = () => {
         allUsers.push(currentUser);
       }
 
+      // If no users in localStorage, fallback to JSON data
+      if (allUsers.length === 0) {
+        allUsers = [...usersData];
+        localStorage.setItem('registeredUsers', JSON.stringify(usersData));
+      }
+
       setUsers(allUsers);
     } catch (error) {
       console.error('Error fetching users:', error);
-      setUsers([]);
+      setUsers(usersData);
     } finally {
       setLoading(false);
     }
@@ -79,9 +86,26 @@ const Users = () => {
 
   const getUserCartItems = (userEmail) => {
     try {
-      const cartData = JSON.parse(localStorage.getItem(`cart_${userEmail}`) || '[]');
-      return cartData;
+      // Check if there's a user-specific cart in localStorage
+      const userCartKey = `cart_${userEmail}`;
+      const userCartData = localStorage.getItem(userCartKey);
+
+      if (userCartData) {
+        return JSON.parse(userCartData);
+      }
+
+      // If no user-specific cart, check if the current user has items in the main cart
+      const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+      if (currentUser && currentUser.email === userEmail) {
+        const mainCartData = localStorage.getItem('cart');
+        if (mainCartData) {
+          return JSON.parse(mainCartData);
+        }
+      }
+
+      return [];
     } catch (error) {
+      console.error('Error fetching user cart items:', error);
       return [];
     }
   };
